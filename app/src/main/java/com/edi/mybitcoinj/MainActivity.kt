@@ -2,6 +2,9 @@ package com.edi.mybitcoinj
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import kotlinx.android.synthetic.main.activity_main.*
+import org.bitcoinj.core.Address
 import org.bitcoinj.core.BlockChain
 import org.bitcoinj.core.PeerGroup
 import org.bitcoinj.params.TestNet3Params
@@ -10,6 +13,10 @@ import org.bitcoinj.store.MemoryBlockStore
 
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var addressA: Address
+    private lateinit var addressB: Address
+    private lateinit var addressC: Address
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,12 +34,35 @@ class MainActivity : AppCompatActivity() {
         peerGroup.start()
 
         //obtain keys and addresses from the wallet with the following API calls:
-        val addressA = wallet.currentReceiveAddress()
+        addressA = wallet.currentReceiveAddress()
         val keyB = wallet.currentReceiveKey()
-        val addressC = wallet.freshReceiveAddress()
+        addressC = wallet.freshReceiveAddress()
 
-        assert(keyB.toAddress(wallet.params).equals(addressA))
+        addressB = keyB.toAddress(wallet.params)
+
+        addressesToViews(addressA, addressB, addressC)
+
+        assert(addressB.equals(addressA))
         assert(!addressC.equals(addressA))
 
+        show.setOnClickListener({
+            addressesToViews(addressA, addressB, addressC)
+        })
+        
+        refreshCAddress.setOnClickListener {
+            addressC = wallet.freshReceiveAddress()
+//            addressesToViews(addressA, addressB, addressC)
+        }
+
+    }
+
+    private fun addressesToViews(
+        addressA: Address,
+        addressB: Address,
+        addressC: Address
+    ) {
+        txtA.text = addressA.toString()
+        txtB.text = addressB.toString()
+        txtC.text = addressC.toString()
     }
 }
