@@ -21,6 +21,7 @@ android {
         }
     }
 
+    // my code
     packagingOptions {
         exclude 'lib/x86_64/darwin/libscrypt.dylib'
         exclude 'lib/x86_64/freebsd/libscrypt.so'
