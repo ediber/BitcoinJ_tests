@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var addressB: Address
     private lateinit var addressC: Address
 
+    private lateinit var restoredWallet: Wallet
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -60,6 +63,19 @@ class MainActivity : AppCompatActivity() {
             val seed = wallet.keyChainSeed
             seedView.text = Joiner.on(" ").join(seed.mnemonicCode)
             seedDate.text = seed.creationTimeSeconds.toString()
+        })
+
+        restoreWalletFromSeed.setOnClickListener {
+            val seedCode = "yard impulse luxury drive today throw farm pepper survey wreck glass federal"
+            val creationtime = 1409478661L
+            val seed = DeterministicSeed(seedCode, null, "", creationtime)
+            restoredWallet = Wallet.fromSeed(params, seed)
+// now sync the restored wallet as described below.
+        }
+
+        showRestoredWallet.setOnClickListener(View.OnClickListener {
+            val address = restoredWallet.currentReceiveAddress()
+//            addressesToViews(address, null, null)
         })
 
     }
