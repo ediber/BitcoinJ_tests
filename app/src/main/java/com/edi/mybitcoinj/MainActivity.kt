@@ -3,6 +3,7 @@ package com.edi.mybitcoinj
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.google.common.base.Joiner
 import kotlinx.android.synthetic.main.activity_main.*
 import org.bitcoinj.core.Address
 import org.bitcoinj.core.BlockChain
@@ -10,6 +11,7 @@ import org.bitcoinj.core.PeerGroup
 import org.bitcoinj.params.TestNet3Params
 import org.bitcoinj.wallet.Wallet
 import org.bitcoinj.store.MemoryBlockStore
+import org.bitcoinj.wallet.DeterministicSeed
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,14 +47,20 @@ class MainActivity : AppCompatActivity() {
         assert(addressB.equals(addressA))
         assert(!addressC.equals(addressA))
 
-        show.setOnClickListener({
+        showAddresses.setOnClickListener({
             addressesToViews(addressA, addressB, addressC)
         })
-        
+
         refreshCAddress.setOnClickListener {
             addressC = wallet.freshReceiveAddress()
 //            addressesToViews(addressA, addressB, addressC)
         }
+
+        showSeed.setOnClickListener({
+            val seed = wallet.keyChainSeed
+            seedView.text = Joiner.on(" ").join(seed.mnemonicCode)
+            seedDate.text = seed.creationTimeSeconds.toString()
+        })
 
     }
 
