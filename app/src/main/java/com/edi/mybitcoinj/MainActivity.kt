@@ -95,6 +95,14 @@ class MainActivity : AppCompatActivity() {
             copyToClipboard(txtA.text.toString())
         }
 
+        txtB.setOnClickListener {
+            copyToClipboard(txtB.text.toString())
+        }
+
+        txtC.setOnClickListener {
+            copyToClipboard(txtC.text.toString())
+        }
+
     }
 
     private fun copyToClipboard(text: String?) {
