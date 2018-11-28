@@ -7,11 +7,19 @@ import com.google.common.base.Joiner
 import kotlinx.android.synthetic.main.activity_main.*
 import org.bitcoinj.core.Address
 import org.bitcoinj.core.BlockChain
+import org.bitcoinj.core.Coin
 import org.bitcoinj.core.PeerGroup
 import org.bitcoinj.params.TestNet3Params
 import org.bitcoinj.wallet.Wallet
 import org.bitcoinj.store.MemoryBlockStore
 import org.bitcoinj.wallet.DeterministicSeed
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -78,6 +86,21 @@ class MainActivity : AppCompatActivity() {
 //            addressesToViews(address, null, null)
         })
 
+        showBalanceBtn.setOnClickListener {
+            balanceTxt.text = wallet.balance.toString()
+        }
+
+        txtA.setOnClickListener {
+            // copy value to load bitcoins to it
+            copyToClipboard(txtA.text.toString())
+        }
+
+    }
+
+    private fun copyToClipboard(text: String?) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("copied to clipboard", text)
+        clipboard.primaryClip = clip
     }
 
     private fun addressesToViews(
