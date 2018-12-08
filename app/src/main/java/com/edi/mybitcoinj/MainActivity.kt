@@ -18,8 +18,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
-
-
+import org.spongycastle.asn1.ua.DSTU4145NamedCurves.params
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,19 +28,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var addressC: Address
 
     private lateinit var restoredWallet: Wallet
-
+    private lateinit var params: TestNet3Params
+    private lateinit var wallet: Wallet
+    private lateinit var peerGroup: PeerGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val params = TestNet3Params.get()
+        params = TestNet3Params.get()
         val blockStore = MemoryBlockStore(params)
 
 
-        val wallet = Wallet(params)
+        wallet = Wallet(params)
         val chain = BlockChain(params, wallet, blockStore)
-        val peerGroup = PeerGroup(params, chain)
+        peerGroup = PeerGroup(params, chain)
         peerGroup.addWallet(wallet)
 //        peerGroup.startAndWait()
         peerGroup.start()
@@ -81,10 +82,10 @@ class MainActivity : AppCompatActivity() {
 // now sync the restored wallet as described below.
         }
 
-        showRestoredWallet.setOnClickListener(View.OnClickListener {
+        showRestoredWallet.setOnClickListener {
             val address = restoredWallet.currentReceiveAddress()
-//            addressesToViews(address, null, null)
-        })
+            addressesToViews(address, null, null)
+        }
 
         showBalanceBtn.setOnClickListener {
             balanceTxt.text = wallet.balance.toString()
@@ -103,6 +104,8 @@ class MainActivity : AppCompatActivity() {
             copyToClipboard(txtC.text.toString())
         }
 
+        sendBitcoin.setOnClickListener { send1Bitcoin() }
+
     }
 
     private fun copyToClipboard(text: String?) {
@@ -112,12 +115,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addressesToViews(
-        addressA: Address,
-        addressB: Address,
-        addressC: Address
+        addressA: Address?,
+        addressB: Address?,
+        addressC: Address?
     ) {
         txtA.text = addressA.toString()
-        txtB.text = addressB.toString()
-        txtC.text = addressC.toString()
+        txtB.text = addressB?.toString()
+        txtC.text = addressC?.toString()
+    }
+
+    private fun send1Bitcoin() {
+// Get the address 1RbxbA1yP2Lebauuef3cBiBho853f7jxs in object form.
+        val targetAddress = Address(params, "1RbxbA1yP2Lebauuef3cBiBho853f7jxs");
+// Do the send of 1 BTC in the background. This could throw InsufficientMoneyException.
+        val result = wallet . sendCoins (peerGroup, targetAddress, Coin.COIN);
+// Save the wallet to disk, optional if using auto saving (see below).
+//        wallet.saveToFile(....);
+// Wait for the transaction to propagate across the P2P network, indicating acceptance.
+        result.broadcastComplete.get();
     }
 }
