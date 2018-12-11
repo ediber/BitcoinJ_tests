@@ -2,7 +2,6 @@ package com.edi.mybitcoinj
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.google.common.base.Joiner
 import kotlinx.android.synthetic.main.activity_main.*
 import org.bitcoinj.core.Address
@@ -13,12 +12,9 @@ import org.bitcoinj.params.TestNet3Params
 import org.bitcoinj.wallet.Wallet
 import org.bitcoinj.store.MemoryBlockStore
 import org.bitcoinj.wallet.DeterministicSeed
-import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Context.CLIPBOARD_SERVICE
-import org.spongycastle.asn1.ua.DSTU4145NamedCurves.params
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,8 +35,10 @@ class MainActivity : AppCompatActivity() {
         params = TestNet3Params.get()
         val blockStore = MemoryBlockStore(params)
 
+//        wallet = Wallet(params)
+        val walletStorage = WalletStorage(params, this)
+        wallet = walletStorage.getWallet()
 
-        wallet = Wallet(params)
         val chain = BlockChain(params, wallet, blockStore)
         peerGroup = PeerGroup(params, chain)
         peerGroup.addWallet(wallet)
