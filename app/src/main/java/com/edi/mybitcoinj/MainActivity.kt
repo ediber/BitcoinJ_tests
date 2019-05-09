@@ -15,6 +15,10 @@ import org.bitcoinj.wallet.DeterministicSeed
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.widget.TextView
+import com.squareup.okhttp.*
+import org.json.JSONObject
+import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,9 +32,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var wallet: Wallet
     private lateinit var peerGroup: PeerGroup
 
+    private lateinit var _this: MainActivity
+
+
+    val okHttpClient = OkHttpClient()
+    val BPI_ENDPOINT = "https://chain.so/api/v2/get_address_balance/BTCTEST/n3HKEVjFQzod5xTVV2Q5q7xaKRw1ju2wph/1"
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        _this = this
 
         params = TestNet3Params.get()
         val blockStore = MemoryBlockStore(params)
@@ -85,8 +98,11 @@ class MainActivity : AppCompatActivity() {
             addressesToViews(address, null, null)
         }
 
+        // TODO
         showBalanceBtn.setOnClickListener {
             balanceTxt.text = wallet.balance.toString()
+
+            _this.loadPrice(balanceTxt)
         }
 
         txtA.setOnClickListener {
@@ -131,5 +147,25 @@ class MainActivity : AppCompatActivity() {
 //        wallet.saveToFile(....);
 // Wait for the transaction to propagate across the P2P network, indicating acceptance.
         result.broadcastComplete.get();
+    }
+
+    private fun loadPrice(textView: TextView) {
+        val request: Request = Request.Builder().url(BPI_ENDPOINT).build()
+
+        okHttpClient.newCall(request).enqueue(object : Callback {
+            override fun onFailure(request: Request?, e: IOException?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onResponse(response: Response?) {
+                val json = response?.body()?.string()
+                val price = JSONObject(json).getJSONObject("data")["confirmed_balance"] as String
+
+                runOnUiThread {
+                    textView.text = price
+                }
+            }
+
+        })
     }
 }

@@ -7,113 +7,133 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <TextView
-            android:layout_width="@android:dimen/notification_large_icon_height"
-            android:layout_height="wrap_content"
-            android:text="A"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:id="@+id/txtA" app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintVertical_bias="0.058" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="36dp" android:layout_marginStart="36dp"/>
-    <TextView
-            android:text="B"
-            android:layout_width="@android:dimen/notification_large_icon_height"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtB" app:layout_constraintStart_toEndOf="@+id/txtA" android:layout_marginLeft="56dp"
-            android:layout_marginStart="56dp"
-            app:layout_constraintTop_toTopOf="@+id/txtA"/>
-    <TextView
-            android:text="C"
-            android:layout_width="@android:dimen/notification_large_icon_height"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtC" app:layout_constraintStart_toEndOf="@+id/txtB" android:layout_marginLeft="56dp"
-            android:layout_marginStart="56dp"
-            app:layout_constraintTop_toTopOf="@+id/txtB"/>
-    <Button
-            android:text="show Addresses"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/showAddresses" android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/txtA"
-            app:layout_constraintHorizontal_bias="0.245"/>
-    <Button
-            android:text="Refresh C"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/refreshCAddress"
-            app:layout_constraintTop_toTopOf="@+id/showAddresses"
-            app:layout_constraintStart_toEndOf="@+id/showAddresses"
-            android:layout_marginLeft="44dp" android:layout_marginStart="44dp"/>
-    <TextView
-            android:text="Seed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/seedView" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/showAddresses" app:layout_constraintVertical_bias="0.056"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.392"
-            android:singleLine="false"
-    />
-    <Button
-            android:text="show seed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/showSeed"
-            app:layout_constraintEnd_toStartOf="@+id/seedDate"
-            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
-            app:layout_constraintTop_toTopOf="@+id/seedDate" app:layout_constraintBottom_toBottomOf="@+id/seedDate"/>
-    <TextView
-            android:text="seed Date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/seedDate"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="200dp"
-            android:layout_marginRight="200dp"
-            app:layout_constraintVertical_bias="0.037" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/seedView"/>
-    <Button
-            android:text="restore wallet from seed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/restoreWalletFromSeed"
-            android:layout_marginTop="40dp" app:layout_constraintTop_toBottomOf="@+id/showSeed"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"/>
-    <Button
-            android:text="show Restored Wallet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/showRestoredWallet" app:layout_constraintStart_toEndOf="@+id/restoreWalletFromSeed"
-            app:layout_constraintTop_toTopOf="@+id/restoreWalletFromSeed"/>
-    <Button
-            android:text="showBalance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/showBalanceBtn" android:layout_marginTop="19dp"
-            app:layout_constraintTop_toBottomOf="@+id/restoreWalletFromSeed"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"/>
-    <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/balanceTxt" app:layout_constraintStart_toEndOf="@+id/showBalanceBtn"
-            android:layout_marginLeft="24dp" android:layout_marginStart="24dp"
-            app:layout_constraintTop_toTopOf="@+id/showBalanceBtn"
-            app:layout_constraintBottom_toBottomOf="@+id/showBalanceBtn"/>
-    <Button
-            android:text="send bitcoin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sendBitcoin" android:layout_marginTop="28dp"
-            app:layout_constraintTop_toBottomOf="@+id/showBalanceBtn" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="32dp" android:layout_marginStart="32dp"/>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" tools:layout_editor_absoluteY="107dp"
+            tools:layout_editor_absoluteX="0dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/balanceTxt" app:layout_constraintStart_toEndOf="@+id/showBalanceBtn"
+                        android:layout_marginLeft="24dp" android:layout_marginStart="24dp"
+                        app:layout_constraintTop_toTopOf="@+id/showBalanceBtn"
+                        app:layout_constraintBottom_toBottomOf="@+id/showBalanceBtn"/>
+                <Button
+                        android:text="restore wallet from seed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/restoreWalletFromSeed"
+                        android:layout_marginTop="40dp" app:layout_constraintTop_toBottomOf="@+id/showSeed"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"/>
+                <Button
+                        android:text="showBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/showBalanceBtn" android:layout_marginTop="19dp"
+                        app:layout_constraintTop_toBottomOf="@+id/restoreWalletFromSeed"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="32dp"
+                        android:layout_marginStart="32dp"/>
+                <Button
+                        android:text="show seed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/showSeed"
+                        app:layout_constraintEnd_toStartOf="@+id/seedDate"
+                        android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+                        app:layout_constraintTop_toTopOf="@+id/seedDate"
+                        app:layout_constraintBottom_toBottomOf="@+id/seedDate"/>
+                <Button
+                        android:text="Refresh C"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/refreshCAddress"
+                        app:layout_constraintTop_toTopOf="@+id/showAddresses"
+                        app:layout_constraintStart_toEndOf="@+id/showAddresses"
+                        android:layout_marginLeft="44dp" android:layout_marginStart="44dp"/>
+                <TextView
+                        android:text="C"
+                        android:layout_width="@android:dimen/notification_large_icon_height"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtC" app:layout_constraintStart_toEndOf="@+id/txtB"
+                        android:layout_marginLeft="56dp"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintTop_toTopOf="@+id/txtB"/>
+                <TextView
+                        android:layout_width="@android:dimen/notification_large_icon_height"
+                        android:layout_height="wrap_content"
+                        android:text="A"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" android:id="@+id/txtA"
+                        app:layout_constraintHorizontal_bias="0.25"
+                        app:layout_constraintVertical_bias="0.058" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginLeft="36dp" android:layout_marginStart="36dp"/>
+                <Button
+                        android:text="show Addresses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                        android:id="@+id/showAddresses" android:layout_marginTop="32dp"
+                        app:layout_constraintTop_toBottomOf="@+id/txtA"
+                        app:layout_constraintHorizontal_bias="0.245"/>
+                <TextView
+                        android:text="seed Date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/seedDate"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="200dp"
+                        android:layout_marginRight="200dp"
+                        android:layout_marginTop="72dp"
+                        app:layout_constraintTop_toBottomOf="@+id/seedView"/>
+                <TextView
+                        android:text="B"
+                        android:layout_width="@android:dimen/notification_large_icon_height"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtB" app:layout_constraintStart_toEndOf="@+id/txtA"
+                        android:layout_marginLeft="56dp"
+                        android:layout_marginStart="56dp"
+                        app:layout_constraintTop_toTopOf="@+id/txtA"/>
+                <Button
+                        android:text="send bitcoin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sendBitcoin" android:layout_marginTop="248dp"
+                        app:layout_constraintTop_toBottomOf="@+id/showBalanceBtn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginLeft="36dp" android:layout_marginStart="36dp"/>
+                <Button
+                        android:text="show Restored Wallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/showRestoredWallet"
+                        app:layout_constraintStart_toEndOf="@+id/restoreWalletFromSeed"
+                        app:layout_constraintTop_toTopOf="@+id/restoreWalletFromSeed"/>
+                <TextView
+                        android:text="Seed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:id="@+id/seedView" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/showAddresses"
+                        app:layout_constraintVertical_bias="0.056"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.392"
+                        android:singleLine="false"
+                />
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
