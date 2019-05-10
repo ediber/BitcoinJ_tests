@@ -16,9 +16,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.widget.TextView
-import com.squareup.okhttp.*
-import org.json.JSONObject
-import java.io.IOException
+import com.edi.mybitcoinj.HttpHelper.Companion.loadPrice
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,8 +33,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var _this: MainActivity
 
 
-    val okHttpClient = OkHttpClient()
-    val BPI_ENDPOINT = "https://chain.so/api/v2/get_address_balance/BTCTEST/n3HKEVjFQzod5xTVV2Q5q7xaKRw1ju2wph/1"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,9 +96,37 @@ class MainActivity : AppCompatActivity() {
 
         // TODO
         showBalanceBtn.setOnClickListener {
-            balanceTxt.text = wallet.balance.toString()
+//            balanceTxt.text = wallet.balance.toString()
+//            balanceTxt.text = wallet.watchedBalance.toString()
 
-            _this.loadPrice(balanceTxt)
+            wallet.activeKeyChain
+            val pubKyes = wallet.activeKeyChain.issuedReceiveKeys
+            val iterator = pubKyes.iterator()
+            var i = 0
+            var balance = 0.0
+
+            while (iterator.hasNext()) {
+
+                val address = iterator.next().toAddress(params)
+
+                val listener = object: HttpHelper.Companion.LoadPriceListener{
+                    override fun onFailure() {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun onResponse(price: String) {
+                        balance += price.toDouble()
+                        if(i == pubKyes.size - 1){
+                            updateUIOnUITread(_this.balanceTxt, balance.toString())
+                        }
+                        i++
+                    }
+
+                }
+
+                loadPrice(listener)
+            }
+
         }
 
         txtA.setOnClickListener {
@@ -120,6 +144,14 @@ class MainActivity : AppCompatActivity() {
 
         sendBitcoin.setOnClickListener { send1Bitcoin() }
 
+    }
+
+    private fun updateUIOnUITread(txtView: TextView?, balance: String) {
+        runOnUiThread {
+            if (txtView != null) {
+                txtView.text = balance
+            }
+        }
     }
 
     private fun copyToClipboard(text: String?) {
@@ -140,32 +172,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun send1Bitcoin() {
 // Get the address 1RbxbA1yP2Lebauuef3cBiBho853f7jxs in object form.
-        val targetAddress = Address(params, "1RbxbA1yP2Lebauuef3cBiBho853f7jxs");
+        val targetAddress = Address(params, "1RbxbA1yP2Lebauuef3cBiBho853f7jxs")
 // Do the send of 1 BTC in the background. This could throw InsufficientMoneyException.
-        val result = wallet . sendCoins (peerGroup, targetAddress, Coin.COIN);
+        val result = wallet . sendCoins (peerGroup, targetAddress, Coin.COIN)
 // Save the wallet to disk, optional if using auto saving (see below).
 //        wallet.saveToFile(....);
 // Wait for the transaction to propagate across the P2P network, indicating acceptance.
-        result.broadcastComplete.get();
+        result.broadcastComplete.get()
     }
 
-    private fun loadPrice(textView: TextView) {
-        val request: Request = Request.Builder().url(BPI_ENDPOINT).build()
 
-        okHttpClient.newCall(request).enqueue(object : Callback {
-            override fun onFailure(request: Request?, e: IOException?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onResponse(response: Response?) {
-                val json = response?.body()?.string()
-                val price = JSONObject(json).getJSONObject("data")["confirmed_balance"] as String
-
-                runOnUiThread {
-                    textView.text = price
-                }
-            }
-
-        })
-    }
 }
