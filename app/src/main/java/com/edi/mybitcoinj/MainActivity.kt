@@ -15,8 +15,8 @@ import org.bitcoinj.wallet.DeterministicSeed
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.view.View
 import android.widget.TextView
-import com.edi.mybitcoinj.HttpHelper.Companion.loadPrice
 
 
 class MainActivity : AppCompatActivity() {
@@ -70,10 +70,14 @@ class MainActivity : AppCompatActivity() {
             addressesToViews(addressA, addressB, addressC)
         })
 
-        refreshCAddress.setOnClickListener {
+        freshRecieveAddress.setOnClickListener {
             addressC = wallet.freshReceiveAddress()
 //            addressesToViews(addressA, addressB, addressC)
         }
+
+        currentReceiveAddress.setOnClickListener(View.OnClickListener {
+            addressA = wallet.currentReceiveAddress()
+        })
 
         showSeed.setOnClickListener({
             val seed = wallet.keyChainSeed
@@ -99,11 +103,14 @@ class MainActivity : AppCompatActivity() {
 //            balanceTxt.text = wallet.balance.toString()
 //            balanceTxt.text = wallet.watchedBalance.toString()
 
-            wallet.activeKeyChain
-            val pubKyes = wallet.activeKeyChain.issuedReceiveKeys
-            val iterator = pubKyes.iterator()
+
+            wallet.walletTransactions
+            wallet.watchedBalance.toString()
+
+/*            val pubKey = wallet.activeKeyChain.issuedReceiveKeys
+            val iterator = pubKey.iterator()
             var i = 0
-            var balance = 0.0
+            var balance: Double = 0.0
 
             while (iterator.hasNext()) {
 
@@ -116,30 +123,28 @@ class MainActivity : AppCompatActivity() {
 
                     override fun onResponse(price: String) {
                         balance += price.toDouble()
-                        if(i == pubKyes.size - 1){
+                        if(i == pubKey.size - 1){
                             updateUIOnUITread(_this.balanceTxt, balance.toString())
                         }
                         i++
                     }
-
                 }
-
-                loadPrice(listener)
-            }
+                loadPrice(listener, address.toString())
+            }*/
 
         }
 
-        txtA.setOnClickListener {
+        currentRecieveTxt1.setOnClickListener {
             // copy value to load bitcoins to it
-            copyToClipboard(txtA.text.toString())
+            copyToClipboard(currentRecieveTxt1.text.toString())
         }
 
-        txtB.setOnClickListener {
-            copyToClipboard(txtB.text.toString())
+        currentRecieveTxt2.setOnClickListener {
+            copyToClipboard(currentRecieveTxt2.text.toString())
         }
 
-        txtC.setOnClickListener {
-            copyToClipboard(txtC.text.toString())
+        freshRecieveTxt.setOnClickListener {
+            copyToClipboard(freshRecieveTxt.text.toString())
         }
 
         sendBitcoin.setOnClickListener { send1Bitcoin() }
@@ -165,9 +170,9 @@ class MainActivity : AppCompatActivity() {
         addressB: Address?,
         addressC: Address?
     ) {
-        txtA.text = addressA.toString()
-        txtB.text = addressB?.toString()
-        txtC.text = addressC?.toString()
+        currentRecieveTxt1.text = addressA.toString()
+        currentRecieveTxt2.text = addressB?.toString()
+        freshRecieveTxt.text = addressC?.toString()
     }
 
     private fun send1Bitcoin() {

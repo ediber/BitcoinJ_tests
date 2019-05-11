@@ -20,12 +20,13 @@ class HttpHelper {
             fun onResponse(price: String)
         }
 
-         fun loadPrice(listener: LoadPriceListener) {
-             val BPI_ENDPOINT = "https://chain.so/api/v2/get_address_balance/BTCTEST/n3HKEVjFQzod5xTVV2Q5q7xaKRw1ju2wph/1"
+         fun loadPrice(listener: LoadPriceListener, address: String) {
+//             val BPI_ENDPOINT = "https://chain.so/api/v2/get_address_balance/BTCTEST/n3HKEVjFQzod5xTVV2Q5q7xaKRw1ju2wph/1"
+             val url = "https://chain.so/api/v2/get_address_balance/BTCTEST/$address/1"
              val okHttpClient = OkHttpClient()
 
 
-             val request: Request = Request.Builder().url(BPI_ENDPOINT).build()
+             val request: Request = Request.Builder().url(url).build()
 
             okHttpClient.newCall(request).enqueue(object : Callback {
                 override fun onFailure(request: Request?, e: IOException?) {
